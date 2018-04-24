@@ -10,7 +10,11 @@ ttl <- lapply(colnames(pc)[-1:-2], function(name) t.test(pc[name], ph[name]))
 write.csv(tt, "aaa.csv")
 
 tt[,1:3]
+colnames(tt)
+tt[1,]$"Pyruvic acid"
+
 ttl[1:3]
+ttl[[1]]$statistic
 
 ###################################################
 setwd("E:/4. METABOLOMICS/Manuscript/manuscript thesis/statistics")
