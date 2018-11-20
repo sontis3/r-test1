@@ -1,6 +1,6 @@
 library("readxl", lib.loc="~/R/win-library/3.4")
-# SerumAll <- read_excel("Z:/UBUNTU/00 - Личные папки сотрудников/13-Маркин/РПЖ/Сводные таблицы/r/SerumAll.xlsx", sheet = "SerumAll")
-# View(SerumAll)
+
+setwd("z:/UBUNTU/00 - Личные папки сотрудников/13 - Маркин/РПЖ/Сводные таблицы/r")
 pc <- read.csv("z:/UBUNTU/00 - Личные папки сотрудников/13 - Маркин/РПЖ/Сводные таблицы/r/PC Serum.csv", header = T, sep = ",", check.names = F)
 ph <- read.csv("z:/UBUNTU/00 - Личные папки сотрудников/13 - Маркин/РПЖ/Сводные таблицы/r/PH Serum.csv", header = T, sep = ",", check.names = F)
 
@@ -27,60 +27,60 @@ ttl[1:3]
 ttl[[1]]$statistic
 
 ###################################################
-setwd("E:/4. METABOLOMICS/Manuscript/manuscript thesis/statistics")
-
-pre <- read.csv("pre.csv")
-post <- read.csv("post.csv")
-
-prepost=merge(pre, post, by.x="id",by.y="id",all.x=T)
-prepost_target=prepost[,c(1:172,429:591)]
-prepost_untarget=prepost[,c(1:9,174:420,593:839)]
-
-ttestpvalue_target=vector(length=163)
-tteststat_target=vector(length=163)
-metabolite_target=vector(length=163)
-wilcoxpvalue_target=vector(length=163)
-
-
-for(i in 10:172){
-
-a=t.test(prepost_target[,i],prepost_target[,i+163],paired=T) 
-ttestpvalue_target[i-9]=a$p.value 
-tteststat_target[i-9]=a$statistic #if >0 pre > post, otherwise post > pre
-
-b=wilcox.test(prepost_target[,i],prepost_target[,i+163], paired=T)
-
-wilcoxpvalue_target[i-9]=b$p.value
-
-metabolite_target[i-9]=names(prepost_target)[i]
-}
-ttestpvaluedata_target=data.frame(ttestpvalue_target,tteststat_target,metabolite_target)
-wilcoxpvaluedata_target=data.frame(wilcoxpvalue_target,metabolite_target)
-
-ttestpvaluedata_target.o=ttestpvaluedata_target[order(ttestpvaluedata_target$ttestpvalue_target),]
-wilcoxpvaluedata_target.o=wilcoxpvaluedata_target[order(wilcoxpvaluedata_target$wilcoxpvalue_target),]
-
-ttestpvaluedata_target.o$k=seq(1:163) 
-wilcoxpvaluedata_target.o$k=seq(1:163)
-
-ttestpvaluedata_target.o$fdr=(ttestpvaluedata_target.o$k*0.05)/163
-wilcoxpvaluedata_target.o$fdr=(wilcoxpvaluedata_target.o$k*0.05)/163
-
-ttestpvaluedata_target.o$diff=ttestpvaluedata_target.o$ttestpvalue_target-ttestpvaluedata_target.o$fdr
-wilcoxpvaluedata_target.o$diff=wilcoxpvaluedata_target.o$wilcoxpvalue_target-wilcoxpvaluedata_target.o$fdr
-
-table(is.element(ttestpvaluedata_target.o$metabolite_target[ttestpvaluedata_target.o$diff < 0],wilcoxpvaluedata_target.o$metabolite_target[wilcoxpvaluedata_target.o$diff<0]))
-ttest_targetmetabolites=ttestpvaluedata_target.o$metabolite_target[ttestpvaluedata_target.o$diff<0]
-wilcox_targetmetabolites=wilcoxpvaluedata_target.o$metabolite_target[wilcoxpvaluedata_target.o$diff<0]
-
-table(is.element(ttest_targetmetabolites,wilcox_targetmetabolites))
-table(is.element(wilcox_targetmetabolites,ttest_targetmetabolites))
-
-ttest_targetmetabolites[!is.element(ttest_targetmetabolites,wilcox_targetmetabolites)]
-wilcox_targetmetabolites[!is.element(wilcox_targetmetabolites,ttest_targetmetabolites)]
-
-write.csv(ttestpvaluedata_target.o,"ttestpvaluedata_target.csv",row.names=FALSE)
-write.csv(wilcoxpvaluedata_target.o,"wilcoxpvaluedata_target.csv",row.names=FALSE)
+# setwd("E:/4. METABOLOMICS/Manuscript/manuscript thesis/statistics")
+# 
+# pre <- read.csv("pre.csv")
+# post <- read.csv("post.csv")
+# 
+# prepost=merge(pre, post, by.x="id",by.y="id",all.x=T)
+# prepost_target=prepost[,c(1:172,429:591)]
+# prepost_untarget=prepost[,c(1:9,174:420,593:839)]
+# 
+# ttestpvalue_target=vector(length=163)
+# tteststat_target=vector(length=163)
+# metabolite_target=vector(length=163)
+# wilcoxpvalue_target=vector(length=163)
+# 
+# 
+# for(i in 10:172){
+# 
+# a=t.test(prepost_target[,i],prepost_target[,i+163],paired=T) 
+# ttestpvalue_target[i-9]=a$p.value 
+# tteststat_target[i-9]=a$statistic #if >0 pre > post, otherwise post > pre
+# 
+# b=wilcox.test(prepost_target[,i],prepost_target[,i+163], paired=T)
+# 
+# wilcoxpvalue_target[i-9]=b$p.value
+# 
+# metabolite_target[i-9]=names(prepost_target)[i]
+# }
+# ttestpvaluedata_target=data.frame(ttestpvalue_target,tteststat_target,metabolite_target)
+# wilcoxpvaluedata_target=data.frame(wilcoxpvalue_target,metabolite_target)
+# 
+# ttestpvaluedata_target.o=ttestpvaluedata_target[order(ttestpvaluedata_target$ttestpvalue_target),]
+# wilcoxpvaluedata_target.o=wilcoxpvaluedata_target[order(wilcoxpvaluedata_target$wilcoxpvalue_target),]
+# 
+# ttestpvaluedata_target.o$k=seq(1:163) 
+# wilcoxpvaluedata_target.o$k=seq(1:163)
+# 
+# ttestpvaluedata_target.o$fdr=(ttestpvaluedata_target.o$k*0.05)/163
+# wilcoxpvaluedata_target.o$fdr=(wilcoxpvaluedata_target.o$k*0.05)/163
+# 
+# ttestpvaluedata_target.o$diff=ttestpvaluedata_target.o$ttestpvalue_target-ttestpvaluedata_target.o$fdr
+# wilcoxpvaluedata_target.o$diff=wilcoxpvaluedata_target.o$wilcoxpvalue_target-wilcoxpvaluedata_target.o$fdr
+# 
+# table(is.element(ttestpvaluedata_target.o$metabolite_target[ttestpvaluedata_target.o$diff < 0],wilcoxpvaluedata_target.o$metabolite_target[wilcoxpvaluedata_target.o$diff<0]))
+# ttest_targetmetabolites=ttestpvaluedata_target.o$metabolite_target[ttestpvaluedata_target.o$diff<0]
+# wilcox_targetmetabolites=wilcoxpvaluedata_target.o$metabolite_target[wilcoxpvaluedata_target.o$diff<0]
+# 
+# table(is.element(ttest_targetmetabolites,wilcox_targetmetabolites))
+# table(is.element(wilcox_targetmetabolites,ttest_targetmetabolites))
+# 
+# ttest_targetmetabolites[!is.element(ttest_targetmetabolites,wilcox_targetmetabolites)]
+# wilcox_targetmetabolites[!is.element(wilcox_targetmetabolites,ttest_targetmetabolites)]
+# 
+# write.csv(ttestpvaluedata_target.o,"ttestpvaluedata_target.csv",row.names=FALSE)
+# write.csv(wilcoxpvaluedata_target.o,"wilcoxpvaluedata_target.csv",row.names=FALSE)
 
 
 
