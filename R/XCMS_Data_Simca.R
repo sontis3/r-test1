@@ -1,0 +1,12 @@
+library("readxl", lib.loc="~/R/win-library/3.5")
+library("stats", lib.loc="C:/Program Files/R/R-3.5.0/library")
+
+setwd("./pdata/")
+# rawData <- read_excel("XCMS_Data_Simca_26.09.2018.xlsx", sheet = "Raw Try")
+ids <- read_excel("XCMS_Data_Simca_26.09.2018.xlsx", sheet = "Ids")
+hData <- read_excel("XCMS_Data_Simca_26.09.2018.xlsx", sheet = "Raw Try", range = cell_rows(c(1, 20)))
+eData <- read_excel("XCMS_Data_Simca_26.09.2018.xlsx", sheet = "Raw Try", range = cell_rows(c(21, 55)))
+ttt <- sapply(ids[[1]], function(name) t.test(hData[[name]], eData[[name]]))
+write.csv(ttt, "ttt.csv")
+trn <- t(ttt)
+write.csv(trn, "trn.csv")
