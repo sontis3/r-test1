@@ -34,4 +34,37 @@ cov(subset(measure,  gender  ==  "female")[, c("chest",  "waist",  "hips")])
 cov(subset(measure,  gender  ==  "male")[, c("chest",  "waist",  "hips")])
 cor(measure[,  c("chest",  "waist",  "hips")])
 dist(scale(measure[,  c("chest",  "waist",  "hips")], center  =  FALSE))
+x <- measure[, c("chest", "waist", "hips")]
+cm <- colMeans(x)
+S <- cov(x)
+d <- apply(x, MARGIN = 1, function(x) t(x - cm) %*% solve(S) %*% (x - cm))
+qqnorm(measure[,"chest"], main = "chest"); qqline(measure[,"chest"])
+qqnorm(measure[,"waist"], main = "waist"); qqline(measure[,"waist"])
+qqnorm(measure[,"hips"], main = "hips"); qqline(measure[,"hips"])
+
+# Alboukadel Kassambara - Practical Guide to Cluster Analysis in R. 
+# загрузка данных
+data("USArrests")
+df <- USArrests
+df <- na.omit(df)
+df.scaled <- scale(df)
+dist.eucl <- dist(df.scaled, method = "euclidean")
+
+head(df, n = 3)
+library("cluster", lib.loc="C:/Program Files/R/R-3.5.1/library")
+install.packages("factoextra")
+
+
+####################################################
+library("readxl", lib.loc="~/R/win-library/3.5")
+library("stats")
+setwd("./akdata/")
+rawData <- read_excel("Metab_new1_uM.xlsx", sheet = "Микромоли")
+# tData <- t(rawData[,-1:-6])
+pcaData2 <- prcomp(rawData[,-1:-6], center = T, scale. = T, rank. = 16)
+summary(pcaData2)
+
+
+
+
 
