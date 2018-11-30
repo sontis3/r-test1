@@ -49,10 +49,17 @@ df <- USArrests
 df <- na.omit(df)
 df.scaled <- scale(df)
 dist.eucl <- dist(df.scaled, method = "euclidean")
+round(as.matrix(dist.eucl)[1:3, 1:3], 1)
 
 head(df, n = 3)
-library("cluster", lib.loc="C:/Program Files/R/R-3.5.1/library")
 install.packages("factoextra")
+library("factoextra", lib.loc="~/R/win-library/3.5")
+dist.cor <- get_dist(df.scaled, method = "pearson")
+round(as.matrix(dist.cor)[1:3, 1:3], 1)
+
+library("cluster", lib.loc="C:/Program Files/R/R-3.5.1/library")
+
+
 
 
 ####################################################
