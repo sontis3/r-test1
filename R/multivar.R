@@ -59,20 +59,29 @@ dist.cor <- get_dist(df.scaled, method = "pearson")
 round(as.matrix(dist.cor)[1:3, 1:3], 1)
 
 library("cluster", lib.loc="C:/Program Files/R/R-3.5.1/library")
+data(flower)
+head(flower, 3)
+dd <- daisy(flower)
+round(as.matrix(dd)[1:3,  1:3],  2)
 
+# визуализация расстояний
+fviz_dist(dist.eucl)
 
-
+# Optimal number of clusters
+fviz_nbclust(df, kmeans, method = "wss") + geom_vline(xintercept = 4, linetype = 2)
 
 ####################################################
 library("readxl", lib.loc="~/R/win-library/3.5")
 library("stats")
+setwd("c:/Repos/R/r-test1/")
 setwd("./akdata/")
 rawData <- read_excel("Metab_new1_uM.xlsx", sheet = "Микромоли")
 # tData <- t(rawData[,-1:-6])
 pcaData2 <- prcomp(rawData[,-1:-6], center = T, scale. = T, rank. = 16)
 summary(pcaData2)
 
-
+df.scaled <- scale(rawData[,-1:-6])
+fviz_nbclust(df.scaled, kmeans, method = "wss")
 
 
 
