@@ -42,6 +42,7 @@ qqnorm(measure[,"chest"], main = "chest"); qqline(measure[,"chest"])
 qqnorm(measure[,"waist"], main = "waist"); qqline(measure[,"waist"])
 qqnorm(measure[,"hips"], main = "hips"); qqline(measure[,"hips"])
 
+###################################################################
 # Alboukadel Kassambara - Practical Guide to Cluster Analysis in R. 
 # загрузка данных
 data("USArrests")

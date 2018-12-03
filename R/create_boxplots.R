@@ -7,13 +7,13 @@ ids_list <- read_excel("z:/UBUNTU/00 - Личные папки сотрудни�
 
 # отбор
 library("dplyr", lib.loc="~/R/win-library/3.5")
-m_neg_src <- merge(neg_src, ids_list, by.x = "Sample", by.y = "Id")
+m_neg_src <- merge(neg_src, ids_list[, -c(2,3)], by.x = "Sample", by.y = "Id")
 
 # транспонирование фрейма
 n <- m_neg_src$Sample
 f <- neg_src[1,-1]
 fact <- factor(t(f))
-t_neg_src <- t(m_neg_src[, -c(1, 60, 61)])
+t_neg_src <- t(m_neg_src[, -1])
 storage.mode(t_neg_src) <- "numeric"
 dft_neg_src <- as.data.frame(t_neg_src)
 colnames(dft_neg_src) <- n
